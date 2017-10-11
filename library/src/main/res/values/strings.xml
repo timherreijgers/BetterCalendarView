@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">BetterCalendarView</string>
+
+    <string name="name_monday">MON</string>
+    <string name="name_tuesday">TUE</string>
+    <string name="name_wednesday">WED</string>
+    <string name="name_thursday">THU</string>
+    <string name="name_friday">FRI</string>
+    <string name="name_saturday">SAT</string>
+    <string name="name_sunday">SUN</string>
+</resources>

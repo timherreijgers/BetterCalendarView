@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="BetterCalendarView">
+        <!-- Whether the current day has to be colored differently-->
+        <attr name="color_current_day" format="boolean"/>
+    </declare-styleable>
+
+</resources>
