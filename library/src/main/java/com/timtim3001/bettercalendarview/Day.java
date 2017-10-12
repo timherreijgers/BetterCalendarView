@@ -95,15 +95,57 @@ public class Day {
      */
     public static final int DECEMBER = 11;
 
+    /**
+     * A constant representing Monday
+     * @since 1.0
+     */
+    public static final int MONDAY = 0;
+
+    /**
+     * A constant representing Tuesday
+     * @since 1.0
+     */
+    public static final int TUESDAY = 0;
+
+    /**
+     * A constant representing Wednesday
+     * @since 1.0
+     */
+    public static final int WEDNESDAY = 0;
+
+    /**
+     * A constant representing Thursday
+     * @since 1.0
+     */
+    public static final int THURSDAY = 0;
+
+    /**
+     * A constant representing Friday
+     * @since 1.0
+     */
+    public static final int FRIDAY = 0;
+
+    /**
+     * A constant representing Saturday
+     * @since 1.0
+     */
+    public static final int SATURDAY = 0;
+
+    /**
+     * A constant representing Sunday
+     * @since 1.0
+     */
+    public static final int SUNDAY = 0;
+
     private int day;
     private int month;
     private int year;
 
     /**
      * Constructor that sets the data of the day. If the day is not valid the day will be initialized to 0. If the month is not valid the month will be initialized to 0.
-     * @param day int - The day of the month. Depending on the month this can be a range from 0-28 to 0-31
-     * @param month int - The month of the year. January is month 0, December is month 12
-     * @param year int - The year
+     * @param day The day of the month. Depending on the month this can be a range from 0-28 to 0-31
+     * @param month The month of the year. January is month 0, December is month 12
+     * @param year The year
      * @since 1.0
      */
     public Day(int day, int month, int year) {

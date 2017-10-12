@@ -32,11 +32,21 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+/**
+ * This class is a calendar widget that supports events. You can use it for selecting and displaying
+ * dates and making and display calendar events
+ * <p>
+ * The calendar can be customized and follows the material design guidelines. You can
+ * select a date by tapping on it and can scroll either by using the buttons on the top
+ * or swipe left and right.
+ */
 public class BetterCalendarView extends LinearLayout {
 
     private static final String TAG = "SexPositionCalenderView";
 
-    private String months[] = {"Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    private final String months[] = {"Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
+    private final int DARK = 0;
+    private final int LIGHT = 1;
 
     private LinearLayout daysLayout;
     private ImageButton prevButton;
@@ -47,13 +57,15 @@ public class BetterCalendarView extends LinearLayout {
     private boolean dayIsColored = false;
     private LinearLayout.LayoutParams textViewParams;
 
-    private boolean colorCurrentDay = true;
     private ClickHandler clickHandler = new ClickHandler();
     private Day selectedDay = null;
     private int totalMonthDifference = 0;
 
     private Context context;
     private AttributeSet attrs;
+
+    private boolean colorCurrentDay = true;
+    private int colorScheme;
 
     public BetterCalendarView(@NonNull Context context) {
         this(context, null);
@@ -68,7 +80,8 @@ public class BetterCalendarView extends LinearLayout {
 
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BetterCalendarView, 0, 0);
         try{
-            colorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_color_current_day, true);
+            colorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_colorCurrentDay, true);
+            colorScheme = typedArray.getInt(R.styleable.BetterCalendarView_colorScheme, LIGHT);
         }finally {
             typedArray.recycle();
         }
