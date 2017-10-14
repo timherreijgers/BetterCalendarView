@@ -67,6 +67,9 @@ public class BetterCalendarView extends LinearLayout {
     private boolean colorCurrentDay = true;
     private int colorScheme;
 
+    private int currentDayColor;
+    private int dayColor;
+
     public BetterCalendarView(@NonNull Context context) {
         this(context, null);
     }
@@ -81,7 +84,7 @@ public class BetterCalendarView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BetterCalendarView, 0, 0);
         try{
             colorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_colorCurrentDay, true);
-            colorScheme = typedArray.getInt(R.styleable.BetterCalendarView_colorScheme, LIGHT);
+            changeColorScheme(typedArray.getInt(R.styleable.BetterCalendarView_colorScheme, LIGHT));
         }finally {
             typedArray.recycle();
         }
@@ -89,6 +92,18 @@ public class BetterCalendarView extends LinearLayout {
         init(context);
         populateGrid();
         setCurrentMonth();
+
+    }
+
+    private void changeColorScheme(int colorScheme){
+
+        if(colorScheme == LIGHT){
+
+        }else if(colorScheme == DARK){
+
+        }
+        currentDayColor = Color.CYAN;
+        dayColor = Color.WHITE;
 
     }
 
@@ -159,19 +174,18 @@ public class BetterCalendarView extends LinearLayout {
         }
 
         if(colorCurrentDay) {
-            int dayColor = Color.CYAN;
             if (Calendar.getInstance().get(Calendar.MONTH) == calendar.get(Calendar.MONTH)) {
                 for (int i = 0; i < dayList.size(); i++) {
                     if (dayList.get(i).getAlpha() == 1f)
                         if (dayList.get(i).getText().equals(Integer.toString(Calendar.getInstance().get(Calendar.DAY_OF_MONTH)))) {
-                            dayList.get(i).setTextColor(dayColor);
+                            dayList.get(i).setTextColor(currentDayColor);
                             dayIsColored = true;
                         }
                 }
             } else {
                 if (dayIsColored) {
                     for (int i = 0; i < dayList.size(); i++) {
-                        dayList.get(i).setTextColor(Color.WHITE);
+                        dayList.get(i).setTextColor(dayColor);
                     }
                     dayIsColored = false;
                 }
