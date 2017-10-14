@@ -87,12 +87,9 @@ public class BetterCalendarView extends LinearLayout {
         try{
             colorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_colorCurrentDay, true);
             currentDayColor = Color.CYAN;
+
             //TODO change colorTheme method
-            checkThemeColor(themeArray.getColor(0, Color.WHITE));
-
-
-            Log.d(TAG, "BetterCalendarView: ");
-            //changeColorScheme(typedArray.getInt(R.styleable.BetterCalendarView_colorScheme, LIGHT));
+            changeColorScheme(checkThemeColor(themeArray.getColor(0, Color.WHITE)));
         }finally {
             typedArray.recycle();
         }
@@ -104,7 +101,7 @@ public class BetterCalendarView extends LinearLayout {
     }
 
     private int checkThemeColor(int color){
-        
+
         if(Color.red(color) > 150 && Color.green(color) > 150 && Color.blue(color) > 150)
             return LIGHT;
 
