@@ -19,12 +19,12 @@ import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.v4.graphics.drawable.DrawableCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.CalendarView;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -46,28 +46,37 @@ public class BetterCalendarView extends LinearLayout {
     private static final String TAG = "SexPositionCalenderView";
 
     private final String months[] = {"Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
-    private final int DARK = 0;
-    private final int LIGHT = 1;
 
+    //Attributes for all layout elements
     private LinearLayout daysLayout;
     private ImageButton prevButton;
     private ImageButton nextButton;
     private TextView monthView;
-    private Calendar calendar;
+    private TextView mondayView;
+    private TextView tuesdayView;
+    private TextView wednesDayView;
+    private TextView thursdayView;
+    private TextView fridayView;
+    private TextView saterdayView;
+    private TextView sundayView;
     private List<TextView> dayList = new ArrayList<>();
-    private boolean dayIsColored = false;
-    private LinearLayout.LayoutParams textViewParams;
 
+    //Attributs for basic functionality
+    private Calendar calendar;
+    private boolean dayIsColored = false;
     private ClickHandler clickHandler = new ClickHandler();
     private Day selectedDay = null;
     private int totalMonthDifference = 0;
-
     private Context context;
     private AttributeSet attrs;
 
+    //Attributes for customizability
+    private OnDateChangedListener dateChangedListener = null;
     private boolean colorCurrentDay = true;
-    private int colorScheme;
 
+    //Attributes for theme-ing
+    private final int DARK = 0;
+    private final int LIGHT = 1;
     private int currentDayColor;
     private int dayColor;
 
@@ -86,9 +95,6 @@ public class BetterCalendarView extends LinearLayout {
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(new int[] {android.R.attr.colorBackground});
         try{
             colorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_colorCurrentDay, true);
-            currentDayColor = Color.CYAN;
-
-            //TODO change colorTheme method
             changeColorScheme(checkThemeColor(themeArray.getColor(0, Color.WHITE)));
         }finally {
             typedArray.recycle();
@@ -102,7 +108,7 @@ public class BetterCalendarView extends LinearLayout {
 
     private int checkThemeColor(int color){
 
-        if(Color.red(color) > 150 && Color.green(color) > 150 && Color.blue(color) > 150)
+        if((Color.red(color) + Color.green(color) + Color.blue(color)) / 3 > 175)
             return LIGHT;
 
         return DARK;
@@ -112,12 +118,11 @@ public class BetterCalendarView extends LinearLayout {
     private void changeColorScheme(int colorScheme){
 
         if(colorScheme == LIGHT){
-
+            dayColor = Color.DKGRAY;
         }else if(colorScheme == DARK){
-
+            dayColor = Color.WHITE;
         }
         currentDayColor = Color.CYAN;
-        dayColor = getResources().getColor(android.R.attr.textColor);
 
     }
 
@@ -130,6 +135,26 @@ public class BetterCalendarView extends LinearLayout {
         prevButton = (ImageButton) findViewById(R.id.calendar_prev_button);
         nextButton = (ImageButton) findViewById(R.id.calendar_next_button);
         monthView = (TextView) findViewById(R.id.calendar_date_display);
+
+        mondayView  = (TextView) findViewById(R.id.mondayView);
+        tuesdayView = (TextView) findViewById(R.id.tuesdayView);
+        wednesDayView = (TextView) findViewById(R.id.wednesdayView);
+        thursdayView = (TextView) findViewById(R.id.thursdayView);
+        fridayView = (TextView) findViewById(R.id.fridayView);
+        saterdayView = (TextView) findViewById(R.id.saturdayView);
+        sundayView = (TextView) findViewById(R.id.sundayView);
+
+        mondayView.setTextColor(dayColor);
+        tuesdayView.setTextColor(dayColor);
+        wednesDayView.setTextColor(dayColor);
+        thursdayView.setTextColor(dayColor);
+        fridayView.setTextColor(dayColor);
+        saterdayView.setTextColor(dayColor);
+        sundayView.setTextColor(dayColor);
+        monthView.setTextColor(dayColor);
+
+        DrawableCompat.setTint(nextButton.getDrawable(), dayColor);
+        DrawableCompat.setTint(prevButton.getDrawable(), dayColor);
 
         prevButton.setOnClickListener(clickHandler);
         nextButton.setOnClickListener(clickHandler);
@@ -199,7 +224,7 @@ public class BetterCalendarView extends LinearLayout {
             } else {
                 if (dayIsColored) {
                     for (int i = 0; i < dayList.size(); i++) {
-                        dayList.get(i).setTextColor(android.R.attr.textColor);
+                        dayList.get(i).setTextColor(dayColor);
                     }
                     dayIsColored = false;
                 }
@@ -233,7 +258,7 @@ public class BetterCalendarView extends LinearLayout {
     private void populateGrid(){
         Log.d(TAG, "populateGrid");
 
-        textViewParams = new LinearLayout.LayoutParams(context, attrs);
+        LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(context, attrs);
         textViewParams.width = LayoutParams.MATCH_PARENT;
         textViewParams.height = LayoutParams.MATCH_PARENT;
         textViewParams.weight = 1;
@@ -250,6 +275,7 @@ public class BetterCalendarView extends LinearLayout {
                 textView.setGravity(Gravity.CENTER);
                 textView.setText("1");
                 textView.setOnClickListener(clickHandler);
+                textView.setTextColor(dayColor);
                 dayList.add(textView);
                 linearLayout.addView(textView, textViewParams);
             }
@@ -295,6 +321,26 @@ public class BetterCalendarView extends LinearLayout {
         this.colorCurrentDay = colorCurrentDay;
     }
 
+    /**
+     * Sets the OnDateChangedListener. If you want to remove the listener you can pass null
+     * <p/>
+     * @see OnDateChangedListener
+     * @param dateChangedListener The listener that has to be set
+     */
+    public void setDateChangedListener(@Nullable OnDateChangedListener dateChangedListener) {
+        this.dateChangedListener = dateChangedListener;
+    }
+
+    /**
+     * Checks whether the view has an OnDateChangedListener.
+     * <p/>
+     * @see OnDateChangedListener
+     * @return If the view has an OnDateChangedListener
+     */
+    public boolean hasOnDateChangedListener(){
+        return dateChangedListener != null;
+    }
+
     private class ClickHandler implements OnClickListener{
 
         private View lastSelectedView = null;
@@ -306,14 +352,17 @@ public class BetterCalendarView extends LinearLayout {
             int difference = 0;
             if(v instanceof TextView){
                 TextView textView = (TextView) v;
-                Log.d(TAG, "Day " + textView.getText() + " was pressed" );
 
                 if(lastSelectedView != null){
                     lastSelectedView.setBackgroundColor(Color.TRANSPARENT);
                 }
+
                 lastSelectedView = v;
                 v.setBackgroundColor(selectedColor);
                 selectedDay = new Day(Integer.parseInt(textView.getText().toString()), getMonth(), getYear());
+                if(dateChangedListener != null){
+                    dateChangedListener.onDateChanged(selectedDay);
+                }
             }else if(v instanceof ImageButton){
                 if(v.getId() == nextButton.getId())
                     difference = 1;
@@ -328,5 +377,17 @@ public class BetterCalendarView extends LinearLayout {
                     lastSelectedView.setBackgroundColor(Color.TRANSPARENT);
             }
         }
+    }
+
+    /**
+     * Interface definition for a callback when the date is changed
+     */
+    public interface OnDateChangedListener{
+        /**
+         * Callback that's called when the date is changed
+         *
+         * @param selectedDay The newly selected day
+         */
+        public void onDateChanged(Day selectedDay);
     }
 }
