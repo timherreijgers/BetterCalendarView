@@ -29,6 +29,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.timtim3001.bettercalendarview.datastorage.CalendarEventDAO;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -99,6 +101,10 @@ public class BetterCalendarView extends LinearLayout {
         }finally {
             typedArray.recycle();
         }
+
+        CalendarEventDAO calendarEventDAO = new CalendarEventDAO(context);
+        CalendarEvent event = new CalendarEvent("Test", "SmallTest", new Day(21, 2, 2018));
+        calendarEventDAO.addCalendarEvent(event);
 
         init(context);
         populateGrid();
