@@ -23,20 +23,35 @@ import android.support.annotation.Nullable;
  */
 public class CalendarEvent {
 
+    private long id;
     private String description;
     private String smallDescription;
-    private Day day;
+    private Date date;
 
     /**
      * Constructor to initialize CalendarEvent
      * @param description The description for the event
      * @param smallDescription The shortened description for the event
-     * @param day The day of the event
+     * @param date The date of the event
      */
-    public CalendarEvent(String description, @Nullable String smallDescription, Day day) {
+    public CalendarEvent(String description, @Nullable String smallDescription, Date date) {
         this.description = description;
         this.smallDescription = smallDescription;
-        this.day = day;
+        this.date = date;
+    }
+
+    /**
+     * Constructor to initialize CalendarEvent.
+     * @param id
+     * @param description The description for the event
+     * @param smallDescription The shortened description for the event
+     * @param date The date of the event
+     */
+    protected CalendarEvent(long id, String description, String smallDescription, Date date) {
+        this.id = id;
+        this.description = description;
+        this.smallDescription = smallDescription;
+        this.date = date;
     }
 
     /**
@@ -56,10 +71,26 @@ public class CalendarEvent {
     }
 
     /**
-     * Gets the {@link Day} of the event
-      * @return the day
+     * Gets the {@link Date} of the event
+      * @return the date
      */
-    public Day getDay() {
-        return day;
+    public Date getDate() {
+        return date;
+    }
+
+    /**
+     * Gets the id of the event
+     * @return the id
+     */
+    protected long getId() {
+        return id;
+    }
+
+    /**
+     * Sets the id of the event
+     * @param id the id
+     */
+    protected void setId(long id) {
+        this.id = id;
     }
 }

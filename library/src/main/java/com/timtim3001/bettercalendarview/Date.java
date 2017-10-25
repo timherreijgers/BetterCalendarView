@@ -21,7 +21,7 @@ import java.util.Calendar;
  * @author Tim Herreijgers
  * @version 1.0
  */
-public class Day {
+public class Date {
 
     /**
      * A constant representing the month January
@@ -148,7 +148,7 @@ public class Day {
      * @param year The year
      * @since 1.0
      */
-    public Day(int day, int month, int year) {
+    public Date(int day, int month, int year) {
 
         this.year = year;
 

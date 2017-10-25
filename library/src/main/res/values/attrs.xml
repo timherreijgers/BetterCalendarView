@@ -2,7 +2,7 @@
 <resources>
 
     <declare-styleable name="BetterCalendarView">
-        <!-- Whether the current day has to be colored differently-->
+        <!-- Whether the current date has to be colored differently-->
         <attr name="colorCurrentDay" format="boolean"/>
 
         <!-- The currently available styles for the calendar-->
