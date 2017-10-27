@@ -89,10 +89,21 @@ public class BetterCalendarView extends LinearLayout {
     private int eventColor;
     private int dayColor;
 
+    /**
+     * Constructor to initialize an BetterCalendarView
+     *
+     * @param context The context
+     */
     public BetterCalendarView(@NonNull Context context) {
         this(context, null);
     }
 
+    /**
+     * Constructor to initialize an BetterCalendarView
+     *
+     * @param context The context
+     * @param attrs The xml-attributes
+     */
     public BetterCalendarView(@NonNull Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
         Log.d(TAG, "BetterCalendarView");
@@ -112,10 +123,6 @@ public class BetterCalendarView extends LinearLayout {
         }
 
         calendarEventDAO = new CalendarEventDAO(context);
-
-        //TODO: fix the month
-        CalendarEvent event = new CalendarEvent("Test", "SmallTest", new Date(21, 10, 2017));
-        calendarEventDAO.addCalendarEvent(event);
 
         init(context);
         populateGrid();
@@ -353,7 +360,7 @@ public class BetterCalendarView extends LinearLayout {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-       changeMonth(totalMonthDifference);
+        changeMonth(totalMonthDifference);
     }
 
     /**
@@ -389,8 +396,28 @@ public class BetterCalendarView extends LinearLayout {
     }
 
     /**
+     * Sets the OnEventSelectedListener. If you want to remove the listener you can pass null
+     *
+     * @see OnEventSelectedListener
+     * @param eventSelectedListener The listener that has to be set
+     */
+    public void setOnEventSelectedListener(@Nullable OnEventSelectedListener eventSelectedListener){
+        this.eventSelectedListener = eventSelectedListener;
+    }
+
+    /**
+     * Checks whether the view has an OnEventSelectedListener
+     *
+     * @see OnEventSelectedListener
+     * @return Whether the view has an OnEventSelectedListener
+     */
+    public boolean hasOnEventSelectedListener(){
+        return eventSelectedListener != null;
+    }
+
+    /**
      * Sets the OnDateSelectedListener. If you want to remove the listener you can pass null
-     * <p/>
+     *
      * @see OnDateSelectedListener
      * @param dateChangedListener The listener that has to be set
      */
@@ -400,9 +427,9 @@ public class BetterCalendarView extends LinearLayout {
 
     /**
      * Checks whether the view has an OnDateSelectedListener.
-     * <p/>
+     *
      * @see OnDateSelectedListener
-     * @return If the view has an OnDateSelectedListener
+     * @return Whether the view has an OnDateSelectedListener
      */
     public boolean hasOnDateChangedListener(){
         return dateChangedListener != null;
@@ -413,7 +440,12 @@ public class BetterCalendarView extends LinearLayout {
      * @param event The event that has to be added
      * @return  Whether the event was added successfully
      */
-    public boolean addCalendarEvent(CalendarEvent event){
+    public boolean addCalendarEvent(CalendarEvent event) {
+        long id = calendarEventDAO.addCalendarEvent(event);
+        if (id > 0){
+            event.setId(id);
+            return true;
+        }
 
         return false;
     }
@@ -426,6 +458,7 @@ public class BetterCalendarView extends LinearLayout {
         return (CalendarEvent[]) calendarEvents.toArray();
     }
 
+    //TODO: add functionality to onEventClickedListener
     private class ClickHandler implements OnClickListener{
 
         private View lastSelectedView = null;
@@ -448,12 +481,14 @@ public class BetterCalendarView extends LinearLayout {
                 if(dateChangedListener != null){
                     dateChangedListener.onDateChanged(selectedDate);
                 }
+
             }else if(v instanceof ImageButton){
                 if(v.getId() == nextButton.getId())
                     difference = 1;
                 if(v.getId() == prevButton.getId())
                     difference = -1;
             }
+
             changeMonth(difference);
             if(selectedDate != null) {
                 if (getMonth() == selectedDate.getMonth() && getYear() == selectedDate.getYear())
@@ -482,8 +517,8 @@ public class BetterCalendarView extends LinearLayout {
     public interface OnEventSelectedListener{
         /**
          * Called when a event is clicked
-         * @param event The selected event
+         * @param event An array containing all of the events on the selected day
          */
-        void onEventSelected(CalendarEvent event);
+        void onEventSelected(CalendarEvent[] event);
     }
 }

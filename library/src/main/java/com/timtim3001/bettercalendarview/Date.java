@@ -19,121 +19,101 @@ import java.util.Calendar;
 /**
  * Class that represents a day
  * @author Tim Herreijgers
- * @version 1.0
  */
 public class Date {
 
     /**
      * A constant representing the month January
-     * @since 1.0
      */
     public static final int JANUARY = 0;
 
     /**
      * A constant representing the month February
-     * @since 1.0
      */
     public static final int FEBRUARY = 1;
 
     /**
      * A constant representing the month March
-     * @since 1.0
      */
     public static final int MARCH = 2;
 
     /**
      * A constant representing the month April
-     * @since 1.0
      */
     public static final int APRIL = 3;
 
     /**
      * A constant representing the month May
-     * @since 1.0
      */
     public static final int MAY = 4;
 
     /**
      * A constant representing the month June
-     * @since 1.0
      */
     public static final int JUNE = 5;
 
     /**
      * A constant representing the month Juli
-     * @since 1.0
      */
     public static final int JULI = 6;
 
     /**
      * A constant representing the month August
-     * @since 1.0
      */
     public static final int AUGUST = 7;
 
     /**
      * A constant representing the month September
-     * @since 1.0
      */
     public static final int SEPTEMBER = 8;
 
     /**
      * A constant representing the month October
-     * @since 1.0
      */
     public static final int OCTOBER = 9;
 
     /**
      * A constant representing the month November
-     * @since 1.0
      */
     public static final int NOVEMBER = 10;
 
     /**
      * A constant representing the month December
-     * @since 1.0
      */
     public static final int DECEMBER = 11;
 
     /**
      * A constant representing Monday
-     * @since 1.0
      */
     public static final int MONDAY = 0;
 
     /**
      * A constant representing Tuesday
-     * @since 1.0
      */
     public static final int TUESDAY = 0;
 
     /**
      * A constant representing Wednesday
-     * @since 1.0
      */
     public static final int WEDNESDAY = 0;
 
     /**
      * A constant representing Thursday
-     * @since 1.0
      */
     public static final int THURSDAY = 0;
 
     /**
      * A constant representing Friday
-     * @since 1.0
      */
     public static final int FRIDAY = 0;
 
     /**
      * A constant representing Saturday
-     * @since 1.0
      */
     public static final int SATURDAY = 0;
 
     /**
      * A constant representing Sunday
-     * @since 1.0
      */
     public static final int SUNDAY = 0;
 
@@ -143,10 +123,13 @@ public class Date {
 
     /**
      * Constructor that sets the data of the day. If the day is not valid the day will be initialized to 0. If the month is not valid the month will be initialized to 0.
+     * </p>
+     * The month parameter has to be set to one of the following constants:
+     * {@link #JANUARY}, {@link #FEBRUARY}, {@link #MARCH}, {@link #APRIL}, {@link #MAY}, {@link #JUNE}, {@link #JULI}, {@link #AUGUST}, {@link #SEPTEMBER}, {@link #OCTOBER}, {@link #NOVEMBER}, {@link #DECEMBER}
+     *
      * @param day The day of the month. Depending on the month this can be a range from 0-28 to 0-31
      * @param month The month of the year. January is month 0, December is month 12
      * @param year The year
-     * @since 1.0
      */
     public Date(int day, int month, int year) {
 
@@ -171,7 +154,6 @@ public class Date {
     /**
      * Gets the day
      * @return the day
-     * @since 1.0
      */
     public int getDay() {
         return day;
@@ -180,7 +162,6 @@ public class Date {
     /**
      * Gets the month
      * @return the month
-     * @since 1.0
      */
     public int getMonth() {
         return month;
@@ -189,7 +170,6 @@ public class Date {
     /**
      * Gets the year
      * @return the year
-     * @since 1.0
      */
     public int getYear() {
         return year;
