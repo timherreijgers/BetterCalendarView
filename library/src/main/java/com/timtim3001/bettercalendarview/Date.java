@@ -174,5 +174,19 @@ public class Date {
     public int getYear() {
         return year;
     }
+
+    @Override
+    public String toString() {
+        return String.format("%s/%s/%s", day, month+1, year);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj instanceof Date){
+            Date date = (Date) obj;
+            return date.getDay() == day && date.getMonth() == month && date.getYear() == year;
+        }
+        return super.equals(obj);
+    }
 }
 

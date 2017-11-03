@@ -444,12 +444,15 @@ public class BetterCalendarView extends LinearLayout {
         long id = calendarEventDAO.addCalendarEvent(event);
         if (id > 0){
             event.setId(id);
+            calendarEvents.add(event);
+            //TODO: Add an faster fix to update the ui
+            changeMonth(0);
             return true;
         }
-
         return false;
     }
 
+    //TODO: fix the casting error
     /**
      * Returns all the {@link CalendarEvent}s as an array
      * @return all the {@link CalendarEvent}s
@@ -458,7 +461,6 @@ public class BetterCalendarView extends LinearLayout {
         return (CalendarEvent[]) calendarEvents.toArray();
     }
 
-    //TODO: add functionality to onEventClickedListener
     private class ClickHandler implements OnClickListener{
 
         private View lastSelectedView = null;
@@ -478,8 +480,20 @@ public class BetterCalendarView extends LinearLayout {
                 lastSelectedView = v;
                 v.setBackgroundColor(selectedColor);
                 selectedDate = new Date(Integer.parseInt(textView.getText().toString()), getMonth(), getYear());
+
+                List<CalendarEvent> eventsList = new ArrayList<>();
+                for(CalendarEvent event : eventsToDisplay){
+                    if(event.getDate().equals(selectedDate))
+                        eventsList.add(event);
+                }
+
                 if(dateChangedListener != null){
                     dateChangedListener.onDateChanged(selectedDate);
+                }
+
+                if(eventSelectedListener != null && eventsList.size() > 0){
+                    CalendarEvent[] events = new CalendarEvent[eventsList.size()];
+                    eventSelectedListener.onEventSelected(eventsList.toArray(events));
                 }
 
             }else if(v instanceof ImageButton){
@@ -517,8 +531,8 @@ public class BetterCalendarView extends LinearLayout {
     public interface OnEventSelectedListener{
         /**
          * Called when a event is clicked
-         * @param event An array containing all of the events on the selected day
+         * @param events An array containing all of the events on the selected day
          */
-        void onEventSelected(CalendarEvent[] event);
+        void onEventSelected(CalendarEvent[] events);
     }
 }
