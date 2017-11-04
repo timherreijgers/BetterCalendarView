@@ -445,8 +445,13 @@ public class BetterCalendarView extends LinearLayout {
         if (id > 0){
             event.setId(id);
             calendarEvents.add(event);
+            if(event.getDate().getMonth() == calendar.get(Calendar.MONTH) && event.getDate().getYear() == calendar.get(Calendar.YEAR)){
+                eventsToDisplay.add(event);
+            }
+            drawEvents();
+
             //TODO: Add an faster fix to update the ui
-            changeMonth(0);
+            //changeMonth(0);
             return true;
         }
         return false;
