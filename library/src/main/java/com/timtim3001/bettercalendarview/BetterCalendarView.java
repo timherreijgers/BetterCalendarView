@@ -51,7 +51,7 @@ public class BetterCalendarView extends LinearLayout {
 
     private final String months[] = {"Jan", "Feb", "Mar", "Apr","May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
 
-    //Attributes for all layout elements
+    //#region Attributes for all layout elements
     private LinearLayout daysLayout;
     private ImageButton prevButton;
     private ImageButton nextButton;
@@ -64,8 +64,9 @@ public class BetterCalendarView extends LinearLayout {
     private TextView saturdayView;
     private TextView sundayView;
     private List<TextView> dayList = new ArrayList<>();
+    //#endregion
 
-    //Attributs for basic functionality
+    //#region Attributs for basic functionality
     private Calendar calendar;
     private boolean dayIsColored = false;
     private ClickHandler clickHandler = new ClickHandler();
@@ -76,18 +77,26 @@ public class BetterCalendarView extends LinearLayout {
     private List<CalendarEvent> calendarEvents;
     private List<CalendarEvent> eventsToDisplay;
     private CalendarEventDAO calendarEventDAO;
+    private View lastSelectedView = null;
+    //#endregion
 
-    //Attributes for customizability
+    //#region Attributes for listeners
     private OnDateSelectedListener dateChangedListener = null;
     private OnEventSelectedListener eventSelectedListener = null;
-    private boolean colorCurrentDay = true;
+    //#endregion
 
-    //Attributes for theme-ing
-    private final int DARK = 0;
-    private final int LIGHT = 1;
+    //#region Attributes for xml-attributes
+    private boolean hasToColorCurrentDay = false;
     private int currentDayColor;
     private int eventColor;
+    private int selectedColor;
+    //#endregion
+
+    //#region Attributes for theme-ing
+    private final int DARK = 0;
+    private final int LIGHT = 1;
     private int dayColor;
+    //#endregion
 
     /**
      * Constructor to initialize an BetterCalendarView
@@ -114,9 +123,11 @@ public class BetterCalendarView extends LinearLayout {
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.BetterCalendarView, 0, 0);
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(new int[] {android.R.attr.colorBackground});
         try{
-            colorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_colorCurrentDay, true);
-            //TODO: add attribute
-            eventColor = Color.MAGENTA;
+            hasToColorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_hasToColorCurrentDay, true);
+            currentDayColor = typedArray.getColor(R.styleable.BetterCalendarView_colorCurrentDay, Color.CYAN);
+            eventColor = typedArray.getColor(R.styleable.BetterCalendarView_colorEvent, Color.MAGENTA);
+            selectedColor = typedArray.getColor(R.styleable.BetterCalendarView_colorSelectedDay, Color.RED);
+            
             changeColorScheme(checkThemeColor(themeArray.getColor(0, Color.WHITE)));
         }finally {
             typedArray.recycle();
@@ -160,7 +171,6 @@ public class BetterCalendarView extends LinearLayout {
         }else if(colorScheme == DARK){
             dayColor = Color.WHITE;
         }
-        currentDayColor = Color.CYAN;
 
     }
 
@@ -256,7 +266,7 @@ public class BetterCalendarView extends LinearLayout {
 
         drawEvents();
 
-        if(colorCurrentDay) {
+        if(hasToColorCurrentDay) {
             colorCurrentDay();
         }
 
@@ -274,12 +284,16 @@ public class BetterCalendarView extends LinearLayout {
             }
         } else {
             if (dayIsColored) {
-                for (int i = 0; i < dayList.size(); i++) {
-                    dayList.get(i).setTextColor(dayColor);
-                }
-                dayIsColored = false;
+                resetColorCurrentDay();
             }
         }
+    }
+
+    private void resetColorCurrentDay(){
+        for (int i = 0; i < dayList.size(); i++) {
+            dayList.get(i).setTextColor(dayColor);
+        }
+        dayIsColored = false;
     }
 
     private void drawEvents(){
@@ -295,6 +309,9 @@ public class BetterCalendarView extends LinearLayout {
                     }
                 }
             }
+        }
+        if(lastSelectedView != null){
+            lastSelectedView.setBackgroundColor(selectedColor);
         }
     }
 
@@ -363,6 +380,7 @@ public class BetterCalendarView extends LinearLayout {
         changeMonth(totalMonthDifference);
     }
 
+    //#region getters and setters
     /**
      * Gets the currently shown month
      * @return The currently shown month
@@ -379,22 +397,32 @@ public class BetterCalendarView extends LinearLayout {
         return calendar.get(Calendar.YEAR);
     }
 
+    //#region getters and setters for customizability
     /**
      * Gets whether the current day has to be colored a different color.
      * @return Whether current day is colored differently
      */
-    public boolean getColorCurrentDay() {
-        return colorCurrentDay;
+    public boolean getHasToColorCurrentDay() {
+        return hasToColorCurrentDay;
     }
 
     /**
      * Sets whether the current day has to be colored a different color.
-     * @param colorCurrentDay boolean - Whether current day is colored differently
+     * @param hasToColorCurrentDay boolean - Whether current day is colored differently
      */
-    public void setColorCurrentDay(boolean colorCurrentDay) {
-        this.colorCurrentDay = colorCurrentDay;
+    public void hasToColorCurrentDay(boolean hasToColorCurrentDay) {
+        this.hasToColorCurrentDay = hasToColorCurrentDay;
+        if(!hasToColorCurrentDay){
+            for (int i = 0; i < dayList.size(); i++) {
+                dayList.get(i).setTextColor(dayColor);
+            }
+            dayIsColored = false;
+        }
     }
+    //#endregion
+    //#endregion
 
+    //#region methods for listeners
     /**
      * Sets the OnEventSelectedListener. If you want to remove the listener you can pass null
      *
@@ -434,7 +462,9 @@ public class BetterCalendarView extends LinearLayout {
     public boolean hasOnDateChangedListener(){
         return dateChangedListener != null;
     }
+    //#endregion
 
+    //#region Methods for events
     /**
      * Method that add an {@link CalendarEvent} to the calender view
      * @param event The event that has to be added
@@ -449,27 +479,54 @@ public class BetterCalendarView extends LinearLayout {
                 eventsToDisplay.add(event);
             }
             drawEvents();
-
-            //TODO: Add an faster fix to update the ui
-            //changeMonth(0);
             return true;
         }
         return false;
     }
 
-    //TODO: fix the casting error
     /**
      * Returns all the {@link CalendarEvent}s as an array
      * @return all the {@link CalendarEvent}s
      */
     public CalendarEvent[] getAllCalendarEvents(){
-        return (CalendarEvent[]) calendarEvents.toArray();
+        CalendarEvent[] array = new CalendarEvent[calendarEvents.size()];
+        return calendarEvents.toArray(array);
     }
 
-    private class ClickHandler implements OnClickListener{
+    /**
+     * Removes all the events from the calendar
+     */
+    public void deleteAllEvents(){
 
-        private View lastSelectedView = null;
-        private int selectedColor = Color.RED;
+        for(CalendarEvent event : calendarEvents){
+            calendarEventDAO.deleteById(event.getId());
+        }
+        calendarEvents.clear();
+        eventsToDisplay.clear();
+        drawEvents();
+    }
+
+    /**
+     * Removes an event from the calendar
+     * @param event The event that has to be deleted
+     * @return whether the event was deleted successfully
+     */
+    public boolean deleteEvent(CalendarEvent event){
+        if(calendarEventDAO.deleteById(event.getId())){
+            if(calendarEvents.contains(event)){
+                calendarEvents.remove(event);
+            }
+            if(eventsToDisplay.contains(event)){
+                eventsToDisplay.remove(event);
+            }
+            drawEvents();
+            return true;
+        }
+        return false;
+    }
+    //#endregion
+
+    private class ClickHandler implements OnClickListener{
 
         @Override
         public void onClick(View v) {
@@ -518,6 +575,7 @@ public class BetterCalendarView extends LinearLayout {
         }
     }
 
+    //#region interface definitions
     /**
      * Interface definition for a callback to be invoked when a date is selected
      */
@@ -540,4 +598,5 @@ public class BetterCalendarView extends LinearLayout {
          */
         void onEventSelected(CalendarEvent[] events);
     }
+    //#endregion
 }

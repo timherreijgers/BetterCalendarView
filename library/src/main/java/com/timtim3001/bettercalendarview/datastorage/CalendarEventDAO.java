@@ -51,6 +51,16 @@ public class CalendarEventDAO {
         return database.insert(CalendarEvents.TABLE_NAME, null, values);
     }
 
+    public boolean deleteById(long id){
+
+        SQLiteDatabase database = dbHelper.getWritableDatabase();
+        String[] selection =  {Long.toString(id)};
+        if(database.delete(CalendarEvents.TABLE_NAME, CalendarEvents._ID + " LIKE ?", selection) == 0)
+            return false;
+        return true;
+
+    }
+
     public Cursor getCalendarEvents(){
 
         SQLiteDatabase database = dbHelper.getReadableDatabase();

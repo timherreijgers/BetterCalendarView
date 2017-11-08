@@ -3,13 +3,17 @@
 
     <declare-styleable name="BetterCalendarView">
         <!-- Whether the current date has to be colored differently-->
-        <attr name="colorCurrentDay" format="boolean"/>
+        <attr name="hasToColorCurrentDay" format="boolean"/>
 
-        <!-- The currently available styles for the calendar-->
-        <attr name="colorScheme" format="enum">
-            <enum name="dark" value="0"/>
-            <enum name="light" value="1"/>
-        </attr>
+        <!-- The color of the current day-->
+        <attr name="colorCurrentDay" format="color"/>
+
+        <!-- The color of an event-->
+        <attr name="colorEvent" format="color" />
+
+        <!-- The color of the currently selected day-->
+        <attr name="colorSelectedDay" format="color" />
+
     </declare-styleable>
 
 </resources>
