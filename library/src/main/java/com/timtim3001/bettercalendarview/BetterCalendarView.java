@@ -17,7 +17,12 @@ package com.timtim3001.bettercalendarview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.graphics.drawable.DrawableCompat;
@@ -86,7 +91,7 @@ public class BetterCalendarView extends LinearLayout {
     //#endregion
 
     //#region Attributes for xml-attributes
-    private boolean hasToColorCurrentDay = false;
+    private boolean hasToColorCurrentDay;
     private int currentDayColor;
     private int eventColor;
     private int selectedColor;
@@ -296,22 +301,28 @@ public class BetterCalendarView extends LinearLayout {
         dayIsColored = false;
     }
 
+    private void setColorOfView(View view, int color){
+//        GradientDrawable drawable = (GradientDrawable) view.getBackground();
+//        drawable.setColor(color);
+        //view.setBackgroundDrawable(drawable);
+    }
+
     private void drawEvents(){
         for(TextView view : dayList){
-            view.setBackgroundColor(Color.TRANSPARENT);
+            setColorOfView(view, Color.TRANSPARENT);
         }
 
         for(CalendarEvent event : eventsToDisplay){
             for (int i = 0; i < dayList.size(); i++) {
                 if (dayList.get(i).getAlpha() == 1f) {
                     if (dayList.get(i).getText().equals(Integer.toString(event.getDate().getDay()))) {
-                        dayList.get(i).setBackgroundColor(eventColor);
+                        setColorOfView(dayList.get(i), eventColor);
                     }
                 }
             }
         }
         if(lastSelectedView != null){
-            lastSelectedView.setBackgroundColor(selectedColor);
+            setColorOfView(lastSelectedView, selectedColor);
         }
     }
 
@@ -340,8 +351,8 @@ public class BetterCalendarView extends LinearLayout {
         Log.d(TAG, "populateGrid");
 
         LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(context, attrs);
-        textViewParams.width = LayoutParams.MATCH_PARENT;
-        textViewParams.height = LayoutParams.MATCH_PARENT;
+        textViewParams.width = LayoutParams.WRAP_CONTENT;
+        textViewParams.height = LayoutParams.WRAP_CONTENT;
         textViewParams.weight = 1;
 
         LayoutParams llParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
@@ -357,6 +368,7 @@ public class BetterCalendarView extends LinearLayout {
                 textView.setText("1");
                 textView.setOnClickListener(clickHandler);
                 textView.setTextColor(dayColor);
+                textView.setBackgroundResource(R.drawable.rouned_corners);
                 dayList.add(textView);
                 linearLayout.addView(textView, textViewParams);
             }
@@ -378,6 +390,14 @@ public class BetterCalendarView extends LinearLayout {
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
         changeMonth(totalMonthDifference);
+        for(View view : dayList){
+            GradientDrawable gradientDrawable = (GradientDrawable) view.getBackground();
+            //gradientDrawable.setSize(10,10);
+            view.setBackgroundDrawable(gradientDrawable);
+//            BitmapDrawable drawable = (BitmapDrawable) view.getBackground();
+//            Bitmap b = drawable.getBitmap();
+//            view.setBackgroundDrawable(new BitmapDrawable(Bitmap.createScaledBitmap(b, b.getHeight(), b.getHeight(), false)));
+        }
     }
 
     //#region getters and setters
@@ -536,11 +556,11 @@ public class BetterCalendarView extends LinearLayout {
                 TextView textView = (TextView) v;
 
                 if(lastSelectedView != null){
-                    lastSelectedView.setBackgroundColor(Color.TRANSPARENT);
+                    setColorOfView(lastSelectedView, Color.TRANSPARENT);
                 }
 
                 lastSelectedView = v;
-                v.setBackgroundColor(selectedColor);
+                setColorOfView(v, selectedColor);
                 selectedDate = new Date(Integer.parseInt(textView.getText().toString()), getMonth(), getYear());
 
                 List<CalendarEvent> eventsList = new ArrayList<>();
@@ -568,9 +588,9 @@ public class BetterCalendarView extends LinearLayout {
             changeMonth(difference);
             if(selectedDate != null) {
                 if (getMonth() == selectedDate.getMonth() && getYear() == selectedDate.getYear())
-                    lastSelectedView.setBackgroundColor(selectedColor);
+                    setColorOfView(lastSelectedView, selectedColor);
                 else
-                    lastSelectedView.setBackgroundColor(Color.TRANSPARENT);
+                    setColorOfView(lastSelectedView, Color.TRANSPARENT);
             }
         }
     }

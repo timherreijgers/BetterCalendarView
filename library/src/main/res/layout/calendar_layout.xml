@@ -106,7 +106,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_thursday"
-            android:id="@+id/thursdayView"/>
+            android:id="@+id/thursdayView" />
 
         <TextView
             android:layout_width="0dp"
