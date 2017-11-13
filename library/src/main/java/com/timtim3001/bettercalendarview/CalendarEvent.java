@@ -23,7 +23,7 @@ import android.support.annotation.Nullable;
  */
 public class CalendarEvent {
 
-    private long id;
+    private long id = -1;
     private String description;
     private String smallDescription;
     private Date date;

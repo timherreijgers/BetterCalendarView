@@ -68,7 +68,7 @@ public class BetterCalendarView extends LinearLayout {
     private TextView fridayView;
     private TextView saturdayView;
     private TextView sundayView;
-    private List<TextView> dayList = new ArrayList<>();
+    private List<DateView> dayList = new ArrayList<>();
     //#endregion
 
     //#region Attributs for basic functionality
@@ -82,7 +82,7 @@ public class BetterCalendarView extends LinearLayout {
     private List<CalendarEvent> calendarEvents;
     private List<CalendarEvent> eventsToDisplay;
     private CalendarEventDAO calendarEventDAO;
-    private View lastSelectedView = null;
+    private DateView lastSelectedView = null;
     //#endregion
 
     //#region Attributes for listeners
@@ -301,14 +301,12 @@ public class BetterCalendarView extends LinearLayout {
         dayIsColored = false;
     }
 
-    private void setColorOfView(View view, int color){
-//        GradientDrawable drawable = (GradientDrawable) view.getBackground();
-//        drawable.setColor(color);
-        //view.setBackgroundDrawable(drawable);
+    private void setColorOfView(DateView view, int color){
+        view.setBackgroundColor(color);
     }
 
     private void drawEvents(){
-        for(TextView view : dayList){
+        for(DateView view : dayList){
             setColorOfView(view, Color.TRANSPARENT);
         }
 
@@ -350,10 +348,10 @@ public class BetterCalendarView extends LinearLayout {
     private void populateGrid(){
         Log.d(TAG, "populateGrid");
 
-        LinearLayout.LayoutParams textViewParams = new LinearLayout.LayoutParams(context, attrs);
-        textViewParams.width = LayoutParams.WRAP_CONTENT;
-        textViewParams.height = LayoutParams.WRAP_CONTENT;
-        textViewParams.weight = 1;
+        LinearLayout.LayoutParams dateViewParams = new LinearLayout.LayoutParams(context, attrs);
+        dateViewParams.width = LayoutParams.MATCH_PARENT;
+        dateViewParams.height = LayoutParams.MATCH_PARENT;
+        dateViewParams.weight = 1;
 
         LayoutParams llParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
         llParams.weight = 1;
@@ -363,14 +361,14 @@ public class BetterCalendarView extends LinearLayout {
             linearLayout.setOrientation(HORIZONTAL);
             linearLayout.setLayoutParams(llParams);
             for(int x = 0;x<7;x++){
-                TextView textView = new TextView(context);
-                textView.setGravity(Gravity.CENTER);
-                textView.setText("1");
-                textView.setOnClickListener(clickHandler);
-                textView.setTextColor(dayColor);
-                textView.setBackgroundResource(R.drawable.rouned_corners);
-                dayList.add(textView);
-                linearLayout.addView(textView, textViewParams);
+                DateView dateView = new DateView(context);
+                dateView.setGravity(Gravity.CENTER);
+                dateView.setText("1");
+                dateView.setOnClickListener(clickHandler);
+                dateView.setTextColor(dayColor);
+                //dateView.setBackgroundResource(R.drawable.rouned_corners);
+                dayList.add(dateView);
+                linearLayout.addView(dateView, dateViewParams);
             }
             daysLayout.addView(linearLayout);
         }
@@ -552,16 +550,16 @@ public class BetterCalendarView extends LinearLayout {
         public void onClick(View v) {
 
             int difference = 0;
-            if(v instanceof TextView){
-                TextView textView = (TextView) v;
+            if(v instanceof DateView){
+                DateView dateView = (DateView) v;
 
                 if(lastSelectedView != null){
                     setColorOfView(lastSelectedView, Color.TRANSPARENT);
                 }
 
-                lastSelectedView = v;
-                setColorOfView(v, selectedColor);
-                selectedDate = new Date(Integer.parseInt(textView.getText().toString()), getMonth(), getYear());
+                lastSelectedView = (DateView) v;
+                setColorOfView((DateView) v, selectedColor);
+                selectedDate = new Date(Integer.parseInt(dateView.getText().toString()), getMonth(), getYear());
 
                 List<CalendarEvent> eventsList = new ArrayList<>();
                 for(CalendarEvent event : eventsToDisplay){
