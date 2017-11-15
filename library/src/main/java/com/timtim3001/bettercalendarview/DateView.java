@@ -31,6 +31,7 @@ class DateView extends TextView {
 
     private Paint backgroundPaint = new Paint();
     private int radius;
+    private int lastColor;
 
     /**
      * Constructor to initialize an BetterCalendarView
@@ -60,6 +61,10 @@ class DateView extends TextView {
      */
     public void setBackgroundColor(int color){
         backgroundPaint.setColor(color);
+        if(lastColor != color){
+            invalidate();
+        }
+        lastColor = color;
     }
 
     @Override
@@ -74,6 +79,6 @@ class DateView extends TextView {
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        radius = h / 2;
+        radius = (int) Math.round(h / 2.1);
     }
 }

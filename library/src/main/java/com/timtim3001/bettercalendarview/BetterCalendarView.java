@@ -129,9 +129,9 @@ public class BetterCalendarView extends LinearLayout {
         TypedArray themeArray = context.getTheme().obtainStyledAttributes(new int[] {android.R.attr.colorBackground});
         try{
             hasToColorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_hasToColorCurrentDay, true);
-            currentDayColor = typedArray.getColor(R.styleable.BetterCalendarView_colorCurrentDay, Color.CYAN);
+            currentDayColor = typedArray.getColor(R.styleable.BetterCalendarView_colorCurrentDay, Color.RED);
             eventColor = typedArray.getColor(R.styleable.BetterCalendarView_colorEvent, Color.MAGENTA);
-            selectedColor = typedArray.getColor(R.styleable.BetterCalendarView_colorSelectedDay, Color.RED);
+            selectedColor = typedArray.getColor(R.styleable.BetterCalendarView_colorSelectedDay, Color.BLUE);
             
             changeColorScheme(checkThemeColor(themeArray.getColor(0, Color.WHITE)));
         }finally {
