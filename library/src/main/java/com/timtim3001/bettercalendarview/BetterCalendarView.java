@@ -17,11 +17,7 @@ package com.timtim3001.bettercalendarview;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -34,9 +30,6 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-
-import com.timtim3001.bettercalendarview.datastorage.CalendarEventDAO;
-import com.timtim3001.bettercalendarview.datastorage.MySQLContracts;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -131,7 +124,7 @@ public class BetterCalendarView extends LinearLayout {
             hasToColorCurrentDay = typedArray.getBoolean(R.styleable.BetterCalendarView_hasToColorCurrentDay, true);
             currentDayColor = typedArray.getColor(R.styleable.BetterCalendarView_colorCurrentDay, Color.RED);
             eventColor = typedArray.getColor(R.styleable.BetterCalendarView_colorEvent, Color.MAGENTA);
-            selectedColor = typedArray.getColor(R.styleable.BetterCalendarView_colorSelectedDay, Color.BLUE);
+            selectedColor = typedArray.getColor(R.styleable.BetterCalendarView_colorSelectedDay, Color.rgb(51,181,229));
             
             changeColorScheme(checkThemeColor(themeArray.getColor(0, Color.WHITE)));
         }finally {

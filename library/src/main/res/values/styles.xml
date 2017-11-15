@@ -1,11 +1,3 @@
 <resources>
 
-    <style name="Light" parent="android:Theme">
-
-    </style>
-
-    <style name="Dark" parent="android:Theme">
-
-    </style>
-
 </resources>
