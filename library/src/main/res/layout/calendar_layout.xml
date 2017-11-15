@@ -82,7 +82,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_monday"
-            android:textColor="@android:color/white" />
+            android:id="@+id/mondayView"/>
 
         <TextView
             android:layout_width="0dp"
@@ -90,7 +90,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_tuesday"
-            android:textColor="@android:color/white" />
+            android:id="@+id/tuesdayView"/>
 
         <TextView
             android:layout_width="0dp"
@@ -98,7 +98,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_wednesday"
-            android:textColor="@android:color/white" />
+            android:id="@+id/wednesdayView"/>
 
         <TextView
             android:layout_width="0dp"
@@ -106,7 +106,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_thursday"
-            android:textColor="@android:color/white" />
+            android:id="@+id/thursdayView" />
 
         <TextView
             android:layout_width="0dp"
@@ -114,15 +114,14 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_friday"
-            android:textColor="@android:color/white" />
-
+            android:id="@+id/fridayView"/>
         <TextView
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_saturday"
-            android:textColor="@android:color/white" />
+            android:id="@+id/saturdayView"/>
 
         <TextView
             android:layout_width="0dp"
@@ -130,7 +129,7 @@
             android:layout_weight="1"
             android:gravity="center_horizontal"
             android:text="@string/name_sunday"
-            android:textColor="@android:color/white" />
+            android:id="@+id/sundayView"/>
 
     </LinearLayout>
 
@@ -145,6 +144,4 @@
 
 
     </LinearLayout>
-
-    <!-- days view -->
 </android.support.constraint.ConstraintLayout>

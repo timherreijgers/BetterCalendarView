@@ -2,8 +2,18 @@
 <resources>
 
     <declare-styleable name="BetterCalendarView">
-        <!-- Whether the current day has to be colored differently-->
-        <attr name="color_current_day" format="boolean"/>
+        <!-- Whether the current date has to be colored differently-->
+        <attr name="hasToColorCurrentDay" format="boolean"/>
+
+        <!-- The color of the current day-->
+        <attr name="colorCurrentDay" format="color"/>
+
+        <!-- The color of an event-->
+        <attr name="colorEvent" format="color" />
+
+        <!-- The color of the currently selected day-->
+        <attr name="colorSelectedDay" format="color" />
+
     </declare-styleable>
 
 </resources>
