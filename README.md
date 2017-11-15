@@ -7,4 +7,8 @@ BetterCalendarView can be used with android 4.0 and above
   1. Download the latest release from the releases tab on github
   2. In android studio go to File -> New -> New module -> Import .JAR/.AAR Package and select the downloaded file.
   3. Go to your module gradle file and add the following line to your dependencies where x is the version:<p/>
-  compile project(':bettercalendarview-v1.x.x')
+  <code>
+    dependencies {
+      compile project(':bettercalendarview-v1.x.x')
+    }
+  </code>
