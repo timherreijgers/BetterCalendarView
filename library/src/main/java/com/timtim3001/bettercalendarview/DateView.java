@@ -61,6 +61,7 @@ class DateView extends TextView {
      */
     public void setBackgroundColor(int color){
         backgroundPaint.setColor(color);
+        backgroundPaint.setAntiAlias(true);
         if(lastColor != color){
             invalidate();
         }
