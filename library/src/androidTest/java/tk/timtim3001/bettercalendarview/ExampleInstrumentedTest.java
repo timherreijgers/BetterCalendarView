@@ -1,4 +1,4 @@
-package com.timtim3001.bettercalendarview;
+package tk.timtim3001.bettercalendarview;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

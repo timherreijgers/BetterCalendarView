@@ -12,7 +12,7 @@
  * limitations under the License.
  */
 
-package com.timtim3001.bettercalendarview;
+package tk.timtim3001.bettercalendarview;
 
 import java.util.Calendar;
 
