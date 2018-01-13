@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/BetterCalendarView.iml" filepath="$PROJECT_DIR$/BetterCalendarView.iml" />
-      <module fileurl="file://C:\Users\Tim\AndroidStudioProjects\BetterCalendarView\BetterCalendarView.iml" filepath="C:\Users\Tim\AndroidStudioProjects\BetterCalendarView\BetterCalendarView.iml" />
       <module fileurl="file://$PROJECT_DIR$/library/library.iml" filepath="$PROJECT_DIR$/library/library.iml" />
-      <module fileurl="file://C:\Users\Tim\AndroidStudioProjects\BetterCalendarView\library\library.iml" filepath="C:\Users\Tim\AndroidStudioProjects\BetterCalendarView\library\library.iml" />
     </modules>
   </component>
 </project>
